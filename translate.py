@@ -28,7 +28,32 @@ def translate_sequence(rna_sequence, genetic_code):
     str
         A string of the translated amino acids.
     """
-    pass
+    rna_seq_upper = rna_sequence.upper()
+    assert 'T' not in rna_seq_upper, "Not RNA! Needs RNA input"
+    genetic_code = { 
+        'AUA':'I', 'AUC':'I', 'AUU':'I', 'AUG':'M', 
+        'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACU':'T', 
+        'AAC':'N', 'AAU':'N', 'AAA':'K', 'AAG':'K', 
+        'AGC':'S', 'AGU':'S', 'AGA':'R', 'AGG':'R',                  
+        'CUA':'L', 'CUC':'L', 'CUG':'L', 'CUU':'L', 
+        'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCU':'P', 
+        'CAC':'H', 'CAU':'H', 'CAA':'Q', 'CAG':'Q', 
+        'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGU':'R', 
+        'GUA':'V', 'GUC':'V', 'GTG':'V', 'GUU':'V', 
+        'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCU':'A', 
+        'GAC':'D', 'GAU':'D', 'GAA':'E', 'GAG':'E', 
+        'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGU':'G', 
+        'UCA':'S', 'UCC':'S', 'UCG':'S', 'UCU':'S', 
+        'UUC':'F', 'UUU':'F', 'UUA':'L', 'UUG':'L', 
+        'UAC':'Y', 'UAU':'Y', 'UAA':'', 'UAG':'', 
+        'UGC':'C', 'UGU':'C', 'UGA':'', 'UGG':'W', 
+    } 
+    AA_seq = ""
+    if len(rna_seq_upper)%3 == 0:
+        for base in range(0, len(rna_seq_upper), 3):
+            codon = rna_seq_upper[base:base + 3]
+            AA_seq += genetic_code[codon]
+    return AA_seq
 
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
@@ -92,7 +117,7 @@ def get_complement(sequence):
     'UACG'
     """
     seq_upper = sequence.upper()
-    assert 'T' not in seq_upper, "Not RNA!"
+    assert 'T' not in seq_upper, "Not RNA! Needs RNA"
     rna_comp = {
         'C' : 'G',
         'G' : 'C',
@@ -130,7 +155,7 @@ def reverse_and_complement(sequence):
         comp_seq += rna_comp[base]
     rev_comp_seq = comp_seq [::-1]
     return rev_comp_seq
-    
+
 def get_longest_peptide(rna_sequence, genetic_code):
     """Get the longest peptide encoded by an RNA sequence.
 
