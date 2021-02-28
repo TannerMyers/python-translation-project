@@ -28,20 +28,7 @@ def translate_sequence(rna_sequence, genetic_code):
     str
         A string of the translated amino acids.
     """
-    rna_sequence = rna_sequence.upper()
-    assert 'T' not in rna_seq_upper, "Not RNA! Needs RNA input" 
-    amino_acids = []
-    while True:
-        if len(rna_sequence) <3:
-            break
-        codon, remaining_seq = pop_next_codon(rna_sequence)
-        rna_sequence = remaining_seq
-        aa = genetic_code[codon]
-        if aa == '*':
-            break
-        amino_acid_list.append(aa)    
-        aa_sequence = "".join(amino_acid_list)
-    return aa_sequence
+    
 
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
