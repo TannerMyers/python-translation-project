@@ -28,32 +28,20 @@ def translate_sequence(rna_sequence, genetic_code):
     str
         A string of the translated amino acids.
     """
-    rna_seq_upper = rna_sequence.upper()
-    assert 'T' not in rna_seq_upper, "Not RNA! Needs RNA input"
-    genetic_code = { 
-        'AUA':'I', 'AUC':'I', 'AUU':'I', 'AUG':'M', 
-        'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACU':'T', 
-        'AAC':'N', 'AAU':'N', 'AAA':'K', 'AAG':'K', 
-        'AGC':'S', 'AGU':'S', 'AGA':'R', 'AGG':'R',                  
-        'CUA':'L', 'CUC':'L', 'CUG':'L', 'CUU':'L', 
-        'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCU':'P', 
-        'CAC':'H', 'CAU':'H', 'CAA':'Q', 'CAG':'Q', 
-        'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGU':'R', 
-        'GUA':'V', 'GUC':'V', 'GTG':'V', 'GUU':'V', 
-        'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCU':'A', 
-        'GAC':'D', 'GAU':'D', 'GAA':'E', 'GAG':'E', 
-        'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGU':'G', 
-        'UCA':'S', 'UCC':'S', 'UCG':'S', 'UCU':'S', 
-        'UUC':'F', 'UUU':'F', 'UUA':'L', 'UUG':'L', 
-        'UAC':'Y', 'UAU':'Y', 'UAA':'', 'UAG':'', 
-        'UGC':'C', 'UGU':'C', 'UGA':'', 'UGG':'W', 
-    } 
-    AA_seq = ""
-    if len(rna_seq_upper)%3 == 0:
-        for base in range(0, len(rna_seq_upper), 3):
-            codon = rna_seq_upper[base:base + 3]
-            AA_seq += genetic_code[codon]
-    return AA_seq
+    rna_sequence = rna_sequence.upper()
+    assert 'T' not in rna_seq_upper, "Not RNA! Needs RNA input" 
+    amino_acids = []
+    while True:
+        if len(rna_sequence) <3:
+            break
+        codon, remaining_seq = pop_next_codon(rna_sequence)
+        rna_sequence = remaining_seq
+        aa = genetic_code[codon]
+        if aa == '*':
+            break
+        amino_acid_list.append(aa)    
+        aa_sequence = "".join(amino_acid_list)
+    return aa_sequence
 
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
