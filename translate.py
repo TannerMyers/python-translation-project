@@ -198,6 +198,8 @@ def get_longest_peptide(rna_sequence, genetic_code):
     proteins = get_all_translations(rna_sequence = rna_sequence, genetic_code = genetic_code)
     proteins_rc = get_all_translations(rna_sequence = reverse_and_complement(rna_sequence), genetic_code = genetic_code)
     proteins += proteins_rc
+    if not proteins:
+        return ""
     longest_peptide = max(proteins, key=len)
     return longest_peptide
 
