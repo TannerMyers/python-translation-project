@@ -93,7 +93,7 @@ def main():
     if not args.stop_codon:
         args.stop_codon = default_stop_codons
 
-    orf = find_first_orf(sequence = sequence,
+    orf = find_orf.find_first_orf(sequence = sequence,
             start_codons = args.start_codon,
             stop_codons = args.stop_codon)
     sys.stdout.write('{}\n'.format(orf))
