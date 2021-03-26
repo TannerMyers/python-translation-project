@@ -23,8 +23,22 @@ def translate_first_orf(
         },
     ):
     """
+    Translate first open reading frame in a sequence of RNA.
 
+    Parameters:
+    -------------------
+    sequence : a string containing the RNA bases composing the open reading frame to be translated
+    start_codons : list of strings containing start codons
+    stop_codons : list of strings containing stop codons
+    genetic_code : a dictionary containing the genetic code that provides the single letter amino acid abbreviation
+        for each triplet of bases composing a codon
     """
+    orf = find_orf.find_first_orf(sequence,
+            start_codons = start_codons,
+            stop_codons = stop_codons) 
+    amino_acid_seq = translate.translate_sequence(orf, genetic_code)
+    return amino_acid_seq
+
 
 def main():
     import argparse
@@ -68,7 +82,7 @@ def main():
     # Check to see if the path option was set to True by the caller. If so, parse
     # the sequence from the path
     if args.path:
-        sequence = parse_sequence_from_path(args.sequence)
+        sequence = find_orf.parse_sequence_from_path(args.sequence)
     else:
         sequence = args.sequence
 
